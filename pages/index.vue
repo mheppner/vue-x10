@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import {FETCH_UNITS} from '~/store/units'
 
 const STORE = 'units'
@@ -77,9 +77,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(STORE, [
-      'units'
-    ])
+    ...mapGetters(STORE, {
+      units: 'unitsOrdered'
+    })
   },
   methods: {
     ...mapActions(STORE, {

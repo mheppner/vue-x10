@@ -53,20 +53,25 @@
       </v-container>
     </v-content>
     <v-footer app fixed>
-
       <v-chip outline
               small
               :color="socket.isConnected ? 'success' : 'error'">
         Socket
       </v-chip>
+      <v-spacer />
+      <RealPerson />
     </v-footer>
   </v-app>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+import RealPerson from '~/components/RealPerson'
 
 export default {
+  components: {
+    RealPerson
+  },
   data: () => ({
     drawer: true
   }),

@@ -44,5 +44,15 @@ module.exports = {
       '~/plugins/vuetify.js'
     ],
     extractCSS: true
+  },
+  modules: [
+    '@nuxtjs/axios'
+  ],
+  axios: {
+    baseURL: 'http://localhost:8000', // API_URL
+    init (axios, ctx) {
+      axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
+      axios.defaults.xsrfCookieName = 'csrftoken'
+    }
   }
 }

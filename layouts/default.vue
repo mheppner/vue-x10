@@ -59,9 +59,9 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      drawer: true
-    })
-  }
+export default {
+  data: () => ({
+    drawer: true
+  })
+}
 </script>

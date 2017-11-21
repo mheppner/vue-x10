@@ -3,12 +3,17 @@ import {orderBy} from 'lodash'
 
 export const FETCH_UNITS = 'FETCH_UNITS'
 export const SET_UNITS = 'SET_UNITS'
+export const SEND_SIGNAL = 'SEND_SIGNAL'
 export const POST_SAVE = 'post_save'
+export const RECEIVE_SIGNAL = 'send_signal'
 export const UPDATE_UNIT = 'UPDATE_UNIT'
 export const ADD_UNIT = 'ADD_UNIT'
+export const SET_SIGNAL = 'SET_SIGNAL'
+export const REMOVE_SIGNAL = 'REMOVE_SIGNAL'
 
 export const state = () => ({
-  units: []
+  units: [],
+  activeSignals: {}
 })
 
 export const getters = {
@@ -30,6 +35,17 @@ export const actions = {
     } else {
       commit(UPDATE_UNIT, params)
     }
+  },
+  [RECEIVE_SIGNAL] ({commit, state}, params) {
+    commit(SET_SIGNAL, params)
+    setTimeout(() => {
+      commit(REMOVE_SIGNAL, params)
+    }, 750)
+  },
+  [SEND_SIGNAL] ({sommit, state}, {slug, params}) {
+    return this.$axios.$post(`/units/${slug}/signal/`, params).then((data) => {
+      return data
+    })
   }
 }
 
@@ -49,5 +65,11 @@ export const mutations = {
   },
   [ADD_UNIT] (state, payload) {
     state.units.push(payload.payload)
+  },
+  [SET_SIGNAL] (state, payload) {
+    state.activeSignals[payload.id] = payload.payload.command
+  },
+  [REMOVE_SIGNAL] (state, payload) {
+    Vue.delete(state.activeSignals, payload.id)
   }
 }

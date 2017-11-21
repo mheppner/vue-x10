@@ -53,15 +53,27 @@
       </v-container>
     </v-content>
     <v-footer app fixed>
-      <span>&copy; 2017</span>
+
+      <v-chip outline
+              small
+              :color="socket.isConnected ? 'success' : 'error'">
+        Socket
+      </v-chip>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
   data: () => ({
     drawer: true
-  })
+  }),
+  computed: {
+    ...mapState([
+      'socket'
+    ])
+  }
 }
 </script>

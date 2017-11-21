@@ -1,7 +1,7 @@
 <template>
   <section class="container">
 
-    <v-template v-for="unit in units">
+    <template v-for="unit in units">
       <h3 class="headline">{{unit.name}}</h3>
       <v-layout row wrap>
         <v-flex xs6>
@@ -9,7 +9,8 @@
                  color="grey darken-2"
                  :outline="!unit.state"
                  :disabled="disabled"
-                 @click="state = true">
+                 @click="state = true"
+                 :class="pulse ? 'pulse': ''">
             <v-icon>lightbulb_outline</v-icon>
             On
           </v-btn>
@@ -25,7 +26,7 @@
             Off
           </v-btn>
         </v-flex>
-        <v-template v-if="unit.dimmable">
+        <template v-if="unit.dimmable">
           <v-flex xs3>
             <v-btn block
                    small
@@ -54,9 +55,9 @@
               <v-icon>skip_next</v-icon>
             </v-btn>
           </v-flex>
-        </v-template>
+        </template>
       </v-layout>
-    </v-template>
+    </template>
 
   </section>
 </template>
@@ -71,7 +72,8 @@ export default {
   data () {
     return {
       state: false,
-      pulse: false
+      pulse: false,
+      disabled: false
     }
   },
   computed: {
@@ -95,5 +97,11 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+.btn {
+  transition: box-shadow 0.1s ease-in-out;
+}
+.btn.pulse {
+  box-shadow: 0 0 3px 0 #ffa726;
 }
 </style>

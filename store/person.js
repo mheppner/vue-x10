@@ -6,7 +6,7 @@ export const RECEIVE_ARRIVE = 'arrive'
 export const RECEIVE_LEAVE = 'leave'
 
 export const state = () => ({
-  status: false
+  status: null
 })
 
 export const getters = {}

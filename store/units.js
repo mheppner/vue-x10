@@ -4,12 +4,15 @@ import {orderBy} from 'lodash'
 export const FETCH_UNITS = 'FETCH_UNITS'
 export const SET_UNITS = 'SET_UNITS'
 export const SEND_SIGNAL = 'SEND_SIGNAL'
-export const POST_SAVE = 'post_save'
-export const RECEIVE_SIGNAL = 'send_signal'
 export const UPDATE_UNIT = 'UPDATE_UNIT'
 export const ADD_UNIT = 'ADD_UNIT'
 export const SET_SIGNAL = 'SET_SIGNAL'
 export const REMOVE_SIGNAL = 'REMOVE_SIGNAL'
+
+// websocket signals
+export const POST_SAVE = 'post_save'
+export const RECEIVE_SIGNAL = 'send_signal'
+export const RECEIVE_UNITS = 'set'
 
 export const state = () => ({
   units: [],
@@ -42,10 +45,13 @@ export const actions = {
       commit(REMOVE_SIGNAL, params)
     }, 750)
   },
-  [SEND_SIGNAL] ({sommit, state}, {slug, params}) {
+  [SEND_SIGNAL] ({commit, state}, {slug, params}) {
     return this.$axios.$post(`/units/${slug}/signal/`, params).then((data) => {
       return data
     })
+  },
+  [RECEIVE_UNITS] ({commit, state}, payload) {
+    commit(SET_UNITS, payload.payload)
   }
 }
 

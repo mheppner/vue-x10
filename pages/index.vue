@@ -66,7 +66,7 @@
 
 <script>
 import {mapGetters, mapActions, mapState, mapMutations} from 'vuex'
-import {FETCH_UNITS, SEND_SIGNAL} from '~/store/units'
+import {SEND_SIGNAL} from '~/store/units'
 import {SET_MESSAGE} from '~/store/messages'
 
 const STORE = 'units'
@@ -90,7 +90,6 @@ export default {
   },
   methods: {
     ...mapActions(STORE, {
-      fetch: FETCH_UNITS,
       sendSignal: SEND_SIGNAL
     }),
     ...mapMutations('messages', {
@@ -111,9 +110,6 @@ export default {
         })
       })
     }
-  },
-  mounted () {
-    this.fetch()
   }
 }
 </script>

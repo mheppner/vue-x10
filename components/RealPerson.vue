@@ -1,5 +1,5 @@
 <template>
-  <span v-if="isAuthenticated">
+  <span v-if="isAuthenticated && status !== null">
     <template v-if="status">
       <v-btn small
              round
@@ -25,7 +25,7 @@
 
 <script>
 import {mapState, mapActions, mapMutations, mapGetters} from 'vuex'
-import {FETCH_STATUS, TOGGLE_STATUS} from '~/store/person'
+import {TOGGLE_STATUS} from '~/store/person'
 import {SET_MESSAGE} from '~/store/messages'
 
 const STORE = 'person'
@@ -45,12 +45,8 @@ export default {
       disabled: false
     }
   },
-  mounted () {
-    this.fetch()
-  },
   methods: {
     ...mapActions(STORE, {
-      fetch: FETCH_STATUS,
       toggle: TOGGLE_STATUS
     }),
     ...mapMutations('messages', {
@@ -59,9 +55,9 @@ export default {
     click () {
       this.disabled = true
 
-      this.toggle().then(() => {
+      this.toggle().then((data) => {
         this.disabled = false
-        this.setMessage({text: 'Welcome home', display: true})
+        this.setMessage({text: data.message, display: true})
       }, () => {
         this.disabled = false
         this.setMessage({

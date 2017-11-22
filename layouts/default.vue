@@ -8,7 +8,7 @@
       v-if="isAuthenticated"
     >
       <v-list dense>
-        <v-list-tile nuxt :to="{name: 'index'}">
+        <v-list-tile nuxt :to="{name: 'index'}" exact>
           <v-list-tile-action>
             <v-icon>dashboard</v-icon>
           </v-list-tile-action>
@@ -24,7 +24,7 @@
             <v-list-tile-title>Scenes</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="">
+        <v-list-tile :href="adminUrl">
           <v-list-tile-action>
             <v-icon>settings</v-icon>
           </v-list-tile-action>
@@ -89,7 +89,10 @@ export default {
     ]),
     ...mapGetters('auth', [
       'isAuthenticated'
-    ])
+    ]),
+    adminUrl () {
+      return `${this.$axios.defaults.baseURL}admin/`
+    }
   }
 }
 </script>

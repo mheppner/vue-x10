@@ -30,6 +30,7 @@
           <v-flex xs3>
             <v-btn block
                    small
+                   @click="click(unit, 'dim', 5)"
                    :disabled="disabled">
               <v-icon>skip_previous</v-icon>
             </v-btn>
@@ -38,6 +39,7 @@
             <v-btn block
                    small
                    :disabled="disabled"
+                   @click="click(unit, 'dim')"
                    :class="activeSignals[unit.slug] === 'dim' ? 'pulse': ''">
               <v-icon>fast_rewind</v-icon>
             </v-btn>
@@ -46,6 +48,7 @@
             <v-btn block
                    small
                    :disabled="disabled"
+                   @click="click(unit, 'brt')"
                    :class="activeSignals[unit.slug] === 'brt' ? 'pulse': ''">
               <v-icon>fast_forward</v-icon>
             </v-btn>
@@ -53,6 +56,7 @@
           <v-flex xs3>
             <v-btn block
                    small
+                   @click="click(unit, 'brt', 5)"
                    :disabled="disabled">
               <v-icon>skip_next</v-icon>
             </v-btn>
@@ -95,10 +99,16 @@ export default {
     ...mapMutations('messages', {
       setMessage: SET_MESSAGE
     }),
-    click (unit, signal) {
+    click (unit, signal, multiplier) {
       this.disabled = true
 
-      this.sendSignal({slug: unit.slug, params: {action: signal}}).then(() => {
+      this.sendSignal({
+        slug: unit.slug,
+        params: {
+          action: signal,
+          multiplier: multiplier
+        }
+      }).then(() => {
         this.disabled = false
         this.setMessage({text: `Sent command to ${unit.name}`, display: true})
       }, () => {

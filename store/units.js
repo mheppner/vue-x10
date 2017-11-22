@@ -73,7 +73,7 @@ export const mutations = {
     state.units.push(payload.payload)
   },
   [SET_SIGNAL] (state, payload) {
-    state.activeSignals[payload.id] = payload.payload.command
+    Vue.set(state.activeSignals, payload.id, payload.payload.command)
   },
   [REMOVE_SIGNAL] (state, payload) {
     Vue.delete(state.activeSignals, payload.id)

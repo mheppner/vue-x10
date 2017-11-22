@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span v-if="isAuthenticated">
     <template v-if="status">
       <v-btn small
              round
@@ -20,12 +20,11 @@
         Away
       </v-btn>
     </template>
-
   </span>
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from 'vuex'
+import {mapState, mapActions, mapMutations, mapGetters} from 'vuex'
 import {FETCH_STATUS, TOGGLE_STATUS} from '~/store/person'
 import {SET_MESSAGE} from '~/store/messages'
 
@@ -36,6 +35,9 @@ export default {
   computed: {
     ...mapState(STORE, [
       'status'
+    ]),
+    ...mapGetters('auth', [
+      'isAuthenticated'
     ])
   },
   data () {

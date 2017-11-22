@@ -17,7 +17,8 @@ module.exports = {
   },
   plugins: [
     '~/plugins/vuetify.js',
-    '~/plugins/websocket.js'
+    '~/plugins/websocket.js',
+    {src: '~/plugins/nuxt-client-init.js', ssr: false}
   ],
   css: [
     '~/assets/style/app.styl'

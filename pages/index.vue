@@ -72,6 +72,9 @@ import {SET_MESSAGE} from '~/store/messages'
 const STORE = 'units'
 
 export default {
+  middleware: [
+    'isAuthenticated'
+  ],
   data () {
     return {
       disabled: false

@@ -5,6 +5,7 @@
       fixed
       v-model="drawer"
       app
+      v-if="isAuthenticated"
     >
       <v-list dense>
         <v-list-tile nuxt :to="{name: 'index'}">
@@ -31,7 +32,7 @@
             <v-list-tile-title>Admin</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile :to="{name: 'logout'}">
+        <v-list-tile nuxt :to="{name: 'auth-logout'}">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
@@ -42,7 +43,9 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"
+                           v-if="isAuthenticated">
+      </v-toolbar-side-icon>
       <v-toolbar-title>X10</v-toolbar-title>
     </v-toolbar>
     <v-content>
@@ -68,7 +71,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 import RealPerson from '~/components/RealPerson'
 import Message from '~/components/Message'
 
@@ -83,6 +86,9 @@ export default {
   computed: {
     ...mapState([
       'socket'
+    ]),
+    ...mapGetters('auth', [
+      'isAuthenticated'
     ])
   }
 }

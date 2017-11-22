@@ -41,7 +41,6 @@ export const actions = {
 
 export const mutations = {
   [SET_STATUS] (state, payload) {
-    console.log('got status', payload)
     state.status = payload.payload.is_home
   }
 }

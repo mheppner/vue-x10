@@ -61,31 +61,19 @@
       </v-layout>
     </template>
 
-    <v-snackbar
-      :timeout="msgTimeout"
-      :color="msgColor"
-      v-model="msg"
-    >
-      {{msgText}}
-      <v-btn dark flat @click.native="msg = false">Close</v-btn>
-    </v-snackbar>
-
   </section>
 </template>
 
 <script>
-import {mapGetters, mapActions, mapState} from 'vuex'
+import {mapGetters, mapActions, mapState, mapMutations} from 'vuex'
 import {FETCH_UNITS, SEND_SIGNAL} from '~/store/units'
+import {SET_MESSAGE} from '~/store/messages'
 
 const STORE = 'units'
 
 export default {
   data () {
     return {
-      msg: false,
-      msgTimeout: 3000,
-      msgText: '',
-      msgColor: '',
       disabled: false
     }
   },
@@ -102,20 +90,22 @@ export default {
       fetch: FETCH_UNITS,
       sendSignal: SEND_SIGNAL
     }),
+    ...mapMutations('messages', {
+      setMessage: SET_MESSAGE
+    }),
     click (unit, signal) {
       this.disabled = true
-      this.msg = false
 
       this.sendSignal({slug: unit.slug, params: {action: signal}}).then(() => {
         this.disabled = false
-        this.msgColor = ''
-        this.msgText = `Sent command to ${unit.name}`
-        this.msg = true
+        this.setMessage({text: `Sent command to ${unit.name}`, display: true})
       }, () => {
         this.disabled = false
-        this.msgColor = 'error'
-        this.msgText = `Failed to send command to ${unit.name}`
-        this.msg = true
+        this.setMessage({
+          text: `Failed to send command to ${unit.name}`,
+          display: true,
+          color: 'error'
+        })
       })
     }
   },

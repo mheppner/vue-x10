@@ -61,16 +61,21 @@
       <v-spacer />
       <RealPerson />
     </v-footer>
+
+    <Message />
+
   </v-app>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 import RealPerson from '~/components/RealPerson'
+import Message from '~/components/Message'
 
 export default {
   components: {
-    RealPerson
+    RealPerson,
+    Message
   },
   data: () => ({
     drawer: true

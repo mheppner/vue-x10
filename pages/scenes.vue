@@ -32,7 +32,7 @@
 
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex'
-import {map} from 'lodash'
+import {map, filter} from 'lodash'
 import {SEND_SIGNAL} from '~/store/scenes'
 import {SET_MESSAGE} from '~/store/messages'
 
@@ -62,13 +62,21 @@ export default {
     ...mapMutations('messages', {
       setMessage: SET_MESSAGE
     }),
+    sceneUnits (scene) {
+      // returns actual unit instances belonging to the scene
+      return filter(this.units, u => {
+        return scene.units.indexOf(u.slug) !== -1
+      })
+    },
     isAllOn (scene) {
-      return map(this.units, 'state').every(state => {
+      // checks that all units in the scene are on
+      return map(this.sceneUnits(scene), 'state').every(state => {
         return state === true
       })
     },
     isAllOff (scene) {
-      return map(this.units, 'state').every(state => {
+      // checks that all units in the scene are off
+      return map(this.sceneUnits(scene), 'state').every(state => {
         return state === false
       })
     },

@@ -53,10 +53,13 @@ module.exports = {
     '@nuxtjs/axios'
   ],
   axios: {
-    baseURL: 'http://localhost:8000', // API_URL
+    baseURL: 'http://localhost:8000', // env: API_URL
     init (axios, ctx) {
       axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
       axios.defaults.xsrfCookieName = 'csrftoken'
     }
+  },
+  router: {
+    base: process.env.ROUTER_BASE || '/'
   }
 }

@@ -1,3 +1,5 @@
+import {CLOSE as CLOSE_SOCKET, OPEN as OPEN_SOCKET} from './socket'
+
 export const FETCH_USER = 'FETCH_USER'
 export const SET_USER = 'SET_USER'
 export const UPDATE_USER = 'UPDATE_USER'
@@ -26,12 +28,14 @@ export const getters = {
 }
 
 export const actions = {
-  [FETCH_USER] ({commit, state}) {
+  [FETCH_USER] ({commit, state, dispatch}) {
     return this.$axios.$get('/auth/user/').then((response) => {
       commit(SET_USER, response)
+      dispatch(`socket/${OPEN_SOCKET}`, null, {root: true})
       return response
     }).catch((e) => {
       commit(SET_USER, null)
+      dispatch(`socket/${CLOSE_SOCKET}`, null, {root: true})
       return e
     })
   },
@@ -63,9 +67,10 @@ export const actions = {
       return dispatch(FETCH_USER)
     })
   },
-  [LOGOUT] ({commit, state}) {
+  [LOGOUT] ({commit, state, dispatch}) {
     return this.$axios.$post('/auth/logout/').then((response) => {
       commit(SET_USER, null)
+      dispatch(`socket/${CLOSE_SOCKET}`, null, {root: true})
       return response
     })
   }

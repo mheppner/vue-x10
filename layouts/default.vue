@@ -56,11 +56,7 @@
       </v-container>
     </v-content>
     <v-footer app fixed>
-      <v-chip outline
-              small
-              :color="socket.isConnected ? 'success' : 'error'">
-        Socket
-      </v-chip>
+      <Socket />
       <v-spacer />
       <RealPerson />
     </v-footer>
@@ -71,22 +67,21 @@
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 import RealPerson from '~/components/RealPerson'
 import Message from '~/components/Message'
+import Socket from '~/components/Socket'
 
 export default {
   components: {
     RealPerson,
-    Message
+    Message,
+    Socket
   },
   data: () => ({
     drawer: true
   }),
   computed: {
-    ...mapState([
-      'socket'
-    ]),
     ...mapGetters('auth', [
       'isAuthenticated'
     ]),

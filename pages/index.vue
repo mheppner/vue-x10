@@ -72,6 +72,8 @@
 import {mapGetters, mapActions, mapState, mapMutations} from 'vuex'
 import {SEND_SIGNAL} from '~/store/units'
 import {SET_MESSAGE} from '~/store/messages'
+import {SET_USER} from '~/store/auth'
+import {CLOSE} from '~/store/socket'
 
 const STORE = 'units'
 
@@ -96,6 +98,12 @@ export default {
     ...mapActions(STORE, {
       sendSignal: SEND_SIGNAL
     }),
+    ...mapActions('socket', {
+      closeSocket: CLOSE
+    }),
+    ...mapMutations('auth', {
+      setUser: SET_USER
+    }),
     ...mapMutations('messages', {
       setMessage: SET_MESSAGE
     }),
@@ -111,13 +119,19 @@ export default {
       }).then(() => {
         this.disabled = false
         this.setMessage({text: `Sent command to ${unit.name}`, display: true})
-      }, () => {
+      }, (err) => {
         this.disabled = false
         this.setMessage({
           text: `Failed to send command to ${unit.name}`,
           display: true,
           color: 'error'
         })
+
+        if (err.response.status === 403) {
+          this.setUser(null)
+          this.closeSocket()
+          this.$router.replace({ name: 'auth-login' })
+        }
       })
     }
   }

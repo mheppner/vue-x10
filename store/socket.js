@@ -1,3 +1,5 @@
+import {SET_USER} from './auth'
+
 // public actions
 export const OPEN = 'OPEN'
 export const CLOSE = 'CLOSE'
@@ -43,6 +45,11 @@ export const actions = {
       if (ev.code === 1000) {
         // normal close
         dispatch(ONCLOSE, ev)
+
+        if (state.data.error === 403) {
+          commit(`auth/${SET_USER}`, null, {root: true})
+          this.app.router.replace({ name: 'auth-login' })
+        }
       } else {
         // abnormal, try to reconnect
         dispatch(ONRECONNECT)
@@ -50,7 +57,7 @@ export const actions = {
     })
     socket.addEventListener('error', ev => {
       if (ev.code === 'ECONNREFUSED') {
-        console.log('con refused')
+        dispatch(ONRECONNECT)
       }
       dispatch(ONERROR, ev)
     })
@@ -73,7 +80,7 @@ export const actions = {
     commit(SET_SOCKET, null)
   },
   [ONERROR] ({commit, state}, event) {
-    console.error(state, event, event.type)
+    console.error(state, event)
   },
   [ONMESSAGE] ({commit, state, dispatch}, event) {
     let data

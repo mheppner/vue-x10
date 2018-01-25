@@ -14,6 +14,7 @@
               <v-text-field label="Username"
                             name="username"
                             id="name"
+                            autocomplete="username"
                             prepend-icon="person"
                             v-model.trim="username"
                             required>
@@ -23,6 +24,7 @@
                             id="password"
                             prepend-icon="vpn_key"
                             type="password"
+                            autocomplete="current-password"
                             v-model="password"
                             required>
               </v-text-field>

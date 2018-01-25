@@ -9,6 +9,6 @@ npm-debug.log
 
 # Nuxt generate
 dist
-
+sw.*
 
 build.sh

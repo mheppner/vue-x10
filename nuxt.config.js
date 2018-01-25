@@ -52,8 +52,8 @@ module.exports = {
   axios: {
     baseURL: 'http://localhost:8000', // env: API_URL
     init (axios, ctx) {
-      axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
-      axios.defaults.xsrfCookieName = 'csrftoken'
+      axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+      axios.defaults.xsrfCookieName = 'home_csrftoken'
     }
   },
   router: {
